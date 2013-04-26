@@ -14,8 +14,8 @@ inherits lxc {
   file {
     [
       '/cgroup',
-      "${mdir}",
-      "${mdir}/templates"]:
+      "${lxc::mdir}",
+      "${lxc::mdir}/templates"]:
       ensure => 'directory';
 
     '/etc/sysctl.d/ipv4_forward.conf':
@@ -30,10 +30,10 @@ inherits lxc {
       source => 'puppet:///modules/lxc/etc_default_grub',
       mode   => '444';
 
-    "${mdir}/templates/lxc-debian":
+    "${lxc::mdir}/templates/lxc-debian":
       recurse => true,
       content => template('lxc/lxc-debian.erb'),
-      require => File["${mdir}/templates"];
+      require => File["${lxc::mdir}/templates"];
   }
 
   exec { '/usr/sbin/update-grub':
@@ -41,7 +41,7 @@ inherits lxc {
     refreshonly => true,
     subscribe   => File['/etc/default/grub'];
   }
-  $mtpt = $lsbdistcodename ? {
+  $mtpt = $::lsbdistcodename ? {
     'oneiric' => '/sys/fs/cgroup',
     default   => '/cgroup',
   }
@@ -50,9 +50,8 @@ inherits lxc {
     name     => $mtpt,
     atboot   => true,
     device   => 'cgroup',
-    ensure   => mounted,
+    ensure   => 'mounted',
     fstype   => 'cgroup',
     options  => 'defaults',
     remounts => false;
   }
-}
