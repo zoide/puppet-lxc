@@ -1,4 +1,4 @@
-class lxc {
-	$mdir = "/var/lib/puppet/modules/lxc"
+class lxc ($ensure = 'present') {
+  $mdir = '/var/lib/puppet/modules/lxc'
 }
 
