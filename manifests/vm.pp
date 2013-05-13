@@ -68,6 +68,7 @@ define lxc::vm (
       refreshonly => false,
       creates     => "${c_path}/config",
       logoutput   => true,
+      timeout     => 720,
     }
 
     Line {
@@ -86,7 +87,7 @@ define lxc::vm (
         line => "lxc.network.link = ${bridge}";
 
       "pair: {${mac_r}:${h_name}":
-        line => "lxc.network.veth.pair = veth_${h_name}",
+        line   => "lxc.network.veth.pair = veth_${h_name}",
         ensure => absent;
 
       "send host-name \"${h_name}\";":
