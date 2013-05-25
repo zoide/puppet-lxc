@@ -71,7 +71,7 @@ define lxc::vm (
       timeout     => 720,
     }
 
-    Line {
+    Common::Line {
       require => Exec["create ${h_name} container"],
       file    => "${c_path}/config",
     }
@@ -79,7 +79,7 @@ define lxc::vm (
     Replace {
       require => Exec["create ${h_name} container"], }
 
-    line {
+    common::line {
       "mac: ${mac_r}":
         line => "lxc.network.hwaddr = ${mac_r}";
 
@@ -123,7 +123,7 @@ define lxc::vm (
         refreshonly => true,
       }
 
-      line { "${h_name}::mongrify_sudoers":
+      common::line { "${h_name}::mongrify_sudoers":
         line    => '%adm ALL=(ALL) NOPASSWD: ALL',
         file    => "${c_path}/rootfs/etc/sudoers",
         require => Exec["${h_name}::useradd_${mainuser}"],
