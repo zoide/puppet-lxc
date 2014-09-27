@@ -110,7 +110,7 @@ define lxc::vm (
     }
 
     # # Disable root - login via ssh
-    replace { "sshd_noRootlogin: ${h_name}":
+    common::replace { "sshd_noRootlogin: ${h_name}":
       file        => "${c_path}/rootfs/etc/ssh/sshd_config",
       pattern     => 'PermitRootLogin yes',
       replacement => 'PermitRootLogin no',
